@@ -35,14 +35,13 @@ const processStr = async (locations) => {
             //console.log('LOCATIONS in loop.jsx',lat,long, count)
             if (type !== residential){
                 strData[count] = {'address':address, 'type':type, 'x':latitude, 'y':longitude}
-                //strData[count] = <div key={count}> {address}, {type}, {x}, {y}</div>
             }
         }    
         count++
     }
     //console.log('LOCATIONS from functions.jsx',locations[797].location.longitude)
     // console.log('Long Lat TEST',testLat, testLong)
-    //console.log('STRDATA from functions.jsx',strData[0])
+    //console.log('STRDATA from functions.jsx',strData[0]) 
     return strData
 }
 

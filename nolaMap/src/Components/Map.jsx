@@ -1,18 +1,36 @@
-import { Map, Marker } from 'pigeon-maps'
+import { Map, Marker, Overlay } from 'pigeon-maps'
 import { osm } from 'pigeon-maps/providers'
-import { useState} from 'react'
-import StrMarker from './Marker.jsx'
+import MarkerOverlay from './MarkerOverlay'
+import { useState } from 'react'
+
 
 function StrMap(props) {
     const [center, setCenter] = useState([29.953535, -90.079798])
     const [zoom, setZoom] = useState(13.2)
+    const [infoOver, setInfoOver] = useState({
+        type:'', 
+        address:'',
+        anchor:[30,90],
+        visible:false
+    })
 
-    function handleMouseOver(event){
+
+    function handleMarkerClick(event){
         const {address , type} = event.payload
-        console.log('HANDLEMOUSEOVER',address , type)
-        return `${type}  ${address}`
+        console.log('HANDLEMOUSEOClick',address,'\n' , type, event.anchor)
+        setInfoOver({...infoOver,type:type, address:address,anchor:[event.anchor], visible:true})
+        console.log('infoOver',infoOver.anchor)
     }
     
+    function handleMapClick(){
+        setInfoOver({
+            ...infoOver,
+            type:'', 
+            address:'',
+            visible:false
+        })
+    }
+
     const mapMarkers = props.mapData.map((e,i) =>{ 
         const {address , type} = e
         
@@ -22,14 +40,12 @@ function StrMap(props) {
             key={i} 
             width={25}
             payload={e}
-            onMouseOver={handleMouseOver}
+            onClick={handleMarkerClick}
         />)
     })
-    //const {address, type, x, y} = props.mapData
+ 
     //console.log('TEST MAP COMPONENT',props.mapData)
-    //  <Marker width={25} anchor={[29.9730275248524, -90.0805496425567]}/> 
-    //inside map loop <StrMarker anchor={[e.x, e.y]} key={i} />
-    //console.log('MAP test Marker component', mapMarkers)
+ 
     return (
         <div className='strMap'>
             <Map 
@@ -39,12 +55,23 @@ function StrMap(props) {
                 center={center} 
                 zoom={zoom}
                 maxZoom={18}
+                onClick={handleMapClick}
                 onBoundsChanged={({center, zoom}) => {
                     setCenter(center)
                     setZoom(zoom)
                 }}
             >
                 {mapMarkers}
+                {infoOver.visible ? <Overlay 
+                    className='overlay'
+                    anchor={infoOver.anchor[0]} 
+                    offset={[50, 259]}
+                >
+                    <MarkerOverlay info={infoOver.address}/>
+                    {/* <div className='markerOverlay' style={{width:100, height:100}}>
+                        <h1>this is a test</h1>
+                    </div> */}
+                </Overlay> : ''}
             </Map>
         </div>
     )
