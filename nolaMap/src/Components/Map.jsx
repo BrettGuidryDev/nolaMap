@@ -1,7 +1,7 @@
+import { useState } from 'react'
 import { Map, Marker, Overlay } from 'pigeon-maps'
 import { osm } from 'pigeon-maps/providers'
 import MarkerOverlay from './MarkerOverlay'
-import { useState } from 'react'
 
 
 function StrMap(props) {
@@ -10,10 +10,34 @@ function StrMap(props) {
     const [infoOver, setInfoOver] = useState({
         type:'', 
         address:'',
-        anchor:[30,90],
-        visible:false
+        anchor:[30,-90],
+        visible:false,
+        commercialVisible:true,
+        residentialVisible:true,
     })
 
+    function handleStrTypebuttons(type){
+        
+        if(type === 'residential'){
+            if(infoOver.residentialVisible === true){
+                setInfoOver({ ...infoOver, residentialVisible:false })
+            } else {
+                setInfoOver({ ...infoOver, residentialVisible:true })
+            }
+            
+        } 
+
+        if(type === 'commercial'){
+            if(infoOver.commercialVisible === true){
+                setInfoOver({ ...infoOver, commercialVisible:false })
+            } else {
+                setInfoOver({ ...infoOver, commercialVisible:true })
+            }
+            
+        }
+
+       
+    }
 
     function handleMarkerClick(event){
         const {address , type} = event.payload
@@ -31,17 +55,34 @@ function StrMap(props) {
         })
     }
 
-    const mapMarkers = props.mapData.map((e,i) =>{ 
+    const mapMarkersCommercial = props.mapData.map((e,i) =>{ 
         const {address , type} = e
-        
-        return (
-            <Marker 
-            anchor={[e.x, e.y]} 
-            key={i} 
-            width={25}
-            payload={e}
-            onClick={handleMarkerClick}
-        />)
+        if(type === 'Short Term Rental Commercial Owner'){
+            return (
+                <Marker 
+                anchor={[e.y, e.x]} 
+                key={i} 
+                width={25}
+                payload={e}
+                color={'#FF6166'}
+                onClick={handleMarkerClick}
+            />)
+        } 
+    })
+
+    const mapMarkersResidential = props.mapData.map((e,i) =>{ 
+        const {address , type} = e  
+        if(type === 'Short Term Rental Residential Owner'){
+            return (
+                <Marker 
+                anchor={[e.y, e.x]} 
+                key={i} 
+                width={25}
+                payload={e}
+                color={'#93C0D0'}
+                onClick={handleMarkerClick}
+            />)
+        }
     })
  
     //console.log('TEST MAP COMPONENT',props.mapData)
@@ -61,17 +102,31 @@ function StrMap(props) {
                     setZoom(zoom)
                 }}
             >
-                {mapMarkers}
-                {infoOver.visible ? <Overlay 
-                    className='overlay'
-                    anchor={infoOver.anchor[0]} 
-                    offset={[50, 259]}
+                <button 
+                    className={ infoOver.residentialVisible ? 'strTypeFilterTrue' : 'strTypeFilterFalse' }
+                    onClick={() => handleStrTypebuttons('residential')} 
+                    
                 >
-                    <MarkerOverlay info={infoOver.address}/>
-                    {/* <div className='markerOverlay' style={{width:100, height:100}}>
-                        <h1>this is a test</h1>
-                    </div> */}
-                </Overlay> : ''}
+                    Residential
+                </button>
+                {infoOver.visible ? 
+                    <Overlay 
+                        className='overlay'
+                        anchor={infoOver.anchor[0]} 
+                        offset={[0, 100]}
+                    >
+                        <MarkerOverlay address={infoOver.address} type={infoOver.type}/>
+                    </Overlay> 
+                    : ''
+                }
+                {infoOver.commercialVisible ? mapMarkersCommercial : ''}
+                {infoOver.residentialVisible ? mapMarkersResidential : ''}
+                <button 
+                    className={ infoOver.commercialVisible ? 'strTypeFilterTrue' : 'strTypeFilterFalse' }
+                    onClick={() => handleStrTypebuttons('commercial')} 
+                >
+                    Commercial
+                </button>
             </Map>
         </div>
     )

@@ -1,12 +1,18 @@
-import { useEffect, useState, useContext } from 'react'
-import reactLogo from '../assets/react.svg'
+import { useEffect, useState} from 'react'
 import '../App.css'
 
-import {test1, strGet} from '../Logic/functions'
-import Listing from './Listing'
+import { strGet } from '../Logic/functions'
 import StrMap from './Map'
+
+/*
+Unused image component
+import reactLogo from '../assets/react.svg'
+
+test of react's Context centralized store
+import { useContext } from 'react'
 import { StrDataContext } from '../Contexts/StrDataContext'
-// import * as funks from './functions.js'
+*/
+
 
 
 
@@ -20,9 +26,10 @@ function App() {
     displayStrData:{}
   })
   
-  //props test data to make sure its displaying to screen
-  const testData = [<div key={1}>test1</div>, <div key={2}>test2</div>, <div key={3}>test3</div>] 
-  const testContextData = testData //just for testing useContext implementation. remove later
+  /*
+  --just for testing useContext implementation. remove later
+  const testContextData = testData
+  */
   
   const handleClick = async (url)=>{
     const freshStrData = await strGet(url)
@@ -68,35 +75,23 @@ function App() {
 
 
   return (
-
     <div className="App">
+      <h1>STR listsing in New Orleans</h1>
+      <div className="card">
+        <button onClick={() => handleClick(strData.url)}>
+          Get STR Data
+        </button>
+        <span> count is {strData.strListings.length} </span>
+        <div>
         {/* <div>
-          <a href="https://vitejs.dev" target="_blank">
-            <img src="/vite.svg" className="logo" alt="Vite logo" />
-          </a>
-          <a href="https://reactjs.org" target="_blank">
-            <img src={reactLogo} className="logo react" alt="React logo" />
-          </a>
-        </div> */}
-        <h1>STR listsing in New Orleans</h1>
-        <div className="card">
-          <button onClick={() => handleClick(strData.url)}>
-            Get STR Data
+          <button onClick={() => formatDataforPresentation(strData)}>
+          test
           </button>
-          <span> count is {strData.strListings.length} </span>
-          <div>
-          <div>
-            <button onClick={() => formatDataforPresentation(strData)}>
-            test
-            </button>
-          </div>
-            {/* <StrDataContext.Provider value={{testContextData}}>
-              <Listing data={strData.strListings} test={testData} />
-            </StrDataContext.Provider>   */}
-            <StrMap mapData={strData.strListings} /> 
-          </div>
+        </div> */}
+          <StrMap mapData={strData.strListings} /> 
         </div>
       </div>
+    </div>
   )
 }
 
