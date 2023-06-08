@@ -17,14 +17,12 @@ function StrMap(props) {
     })
 
     function handleStrTypebuttons(type){
-        
         if(type === 'residential'){
             if(infoOver.residentialVisible === true){
                 setInfoOver({ ...infoOver, residentialVisible:false })
             } else {
                 setInfoOver({ ...infoOver, residentialVisible:true })
             }
-            
         } 
 
         if(type === 'commercial'){
@@ -33,10 +31,7 @@ function StrMap(props) {
             } else {
                 setInfoOver({ ...infoOver, commercialVisible:true })
             }
-            
         }
-
-       
     }
 
     function handleMarkerClick(event){
@@ -55,7 +50,7 @@ function StrMap(props) {
         })
     }
 
-    const mapMarkersCommercial = props.mapData.map((e,i) =>{ 
+    const mapMarkersCommercial = props.mapData.map((e,i) => { 
         const {address , type} = e
         if(type === 'Short Term Rental Commercial Owner'){
             return (
@@ -70,7 +65,7 @@ function StrMap(props) {
         } 
     })
 
-    const mapMarkersResidential = props.mapData.map((e,i) =>{ 
+    const mapMarkersResidential = props.mapData.map((e,i) => { 
         const {address , type} = e  
         if(type === 'Short Term Rental Residential Owner'){
             return (
@@ -105,12 +100,11 @@ function StrMap(props) {
                 <button 
                     className={ infoOver.residentialVisible ? 'strTypeFilterTrue' : 'strTypeFilterFalse' }
                     onClick={() => handleStrTypebuttons('residential')} 
-                    
                 >
                     Residential
                 </button>
-                {infoOver.visible ? 
-                    <Overlay 
+                {infoOver.visible 
+                    ? <Overlay 
                         className='overlay'
                         anchor={infoOver.anchor[0]} 
                         offset={[0, 100]}
@@ -123,7 +117,7 @@ function StrMap(props) {
                 {infoOver.residentialVisible ? mapMarkersResidential : ''}
                 <button 
                     className={ infoOver.commercialVisible ? 'strTypeFilterTrue' : 'strTypeFilterFalse' }
-                    onClick={() => handleStrTypebuttons('commercial')} 
+                    onClick={() => handleStrTypebuttons('commercial')}
                 >
                     Commercial
                 </button>
@@ -131,6 +125,5 @@ function StrMap(props) {
         </div>
     )
 }
-
 
 export default StrMap;

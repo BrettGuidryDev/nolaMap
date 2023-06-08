@@ -3,6 +3,8 @@ import React, { useContext } from 'react'
 import { formatDataforPresentation } from "../Logic/functions"
 import { StrDataContext } from "../Contexts/StrDataContext"
 
+/*THIS COMPONENT CURRENTLY UNUSED*/
+
 /*Classy reminder
 export default class Listing extends React.Component {
     render() {
@@ -23,7 +25,7 @@ function Listing(props) {
     const strDataArray = []
     
     formatDataforPresentation(listingData)
-    // const formatDataforPresentation = (listingData)=>{
+    // const formatDataforPresentation = (listingData) => {
         //     for (const listing in listingData){
             //       let [address, type, x, y] = Object.values(listingData[listing])
             //       strDataArray.push(<div>{address} {type} {x} {y}</div>)
