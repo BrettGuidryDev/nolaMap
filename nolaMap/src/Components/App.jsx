@@ -1,7 +1,7 @@
 import { useEffect, useState } from 'react'
-import '../App.css'
+import '../css/App.css'
 
-import { strGet } from '../Logic/functions'
+import { strGet } from '../js/functions'
 import StrMap from './StrMap'
 /*Below here are just test components */ 
 import Header from './Header'

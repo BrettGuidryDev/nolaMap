@@ -1,4 +1,4 @@
-import React from "react";
+
 
 function Header(props) {
     let linkName = props.linkName;
@@ -6,7 +6,7 @@ function Header(props) {
     
     return (
             <span>
-            {<a href={url}> | {linkName} | </a>}
+                {<a href={url}> | {linkName} | </a>}
             </span>
     )
 }

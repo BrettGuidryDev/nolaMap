@@ -1,7 +1,7 @@
 import { render } from "react-dom"
 import React, { useContext } from 'react'
-import { formatDataforPresentation } from "../Logic/functions"
-import { StrDataContext } from "../Contexts/StrDataContext"
+import { formatDataforPresentation } from "../js/functions"
+import { StrDataContext } from "../contexts/StrDataContext"
 
 /*THIS COMPONENT CURRENTLY UNUSED*/
 
